@@ -1,3 +1,5 @@
+package basejava.basejava.src;
+
 /**
  * Initial resume class
  */
@@ -10,4 +12,5 @@ public class Resume {
     public String toString() {
         return uuid;
     }
+
 }
