@@ -8,8 +8,8 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
-        Resume[] tmpStorage = new Resume[this.storage.length];
-        System.arraycopy(tmpStorage, 0, storage, 0, tmpStorage.length);
+        Resume[] tmpStorage = new Resume[storage.length];
+        System.arraycopy(tmpStorage, 0, storage, 0, size());
     }
 
     void save(Resume r) {
@@ -37,14 +37,15 @@ public class ArrayStorage {
     void delete(String uuid) {
         int index = 0;
         for (int i = 0; i < storage.length; i++) {
+            if (get(uuid) == null){
+                break;
+            }
             if (get(uuid) == storage[i]){
                 index = i;
             }
+
         }
-        Resume[] tmpStorage = new Resume[storage.length];
-
-
-
+        System.arraycopy(storage, index + 1, storage, index, size());
     }
 
     /**
