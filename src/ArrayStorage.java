@@ -6,19 +6,14 @@ package basejava.basejava.src;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int size;
 
     void clear() {
-        Resume[] tmpStorage = new Resume[storage.length];
-        System.arraycopy(tmpStorage, 0, storage, 0, size());
+        this.size = 0;
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
-        }
+        storage[size++] = r;
     }
 
     Resume get(String uuid) {
@@ -36,34 +31,24 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         int index = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (get(uuid) == null) {
-                break;
-            }
+        for (int i = 0; i < this.size; i++) {
             if (get(uuid) == storage[i]) {
                 index = i;
             }
-
         }
-        System.arraycopy(storage, index + 1, storage, index, size());
+        System.arraycopy(storage, index + 1, storage, index, this.size--);
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] fillArr = new Resume[size()];
+        Resume[] fillArr = new Resume[this.size];
         System.arraycopy(storage, 0, fillArr, 0, fillArr.length);
         return fillArr;
     }
 
     int size() {
-        int count = 0;
-        for (Resume resume : storage) {
-            if (resume != null) {
-                count++;
-            }
-        }
-        return count;
+        return this.size;
     }
 }
