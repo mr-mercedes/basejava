@@ -10,6 +10,9 @@ public class ArrayStorage {
     private int size;
 
     void clear() {
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
+        }
         size = 0;
     }
 
@@ -18,7 +21,6 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        if (size == 0) return null;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)){
                 return storage[i];
@@ -28,13 +30,13 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int index = 0;
-        for (int i = 0; i < size; i++) {
+        int length = size;
+        for (int i = 0; i < length; i++) {
             if (get(uuid) == storage[i]) {
-                index = i;
+                System.arraycopy(storage, i + 1, storage, i, size--);
+                break;
             }
         }
-        System.arraycopy(storage, index + 1, storage, index, size--);
     }
 
     /**
