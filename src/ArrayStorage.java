@@ -1,5 +1,6 @@
 package basejava.basejava.src;
 
+import java.util.Arrays;
 
 /**
  * Array based storage for Resumes
@@ -9,7 +10,7 @@ public class ArrayStorage {
     private int size;
 
     void clear() {
-        this.size = 0;
+        size = 0;
     }
 
     void save(Resume r) {
@@ -17,38 +18,33 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        try {
-            for (Resume resume : storage) {
-                if (resume.toString().equals(uuid)) {
-                    return resume;
-                }
+        if (size == 0) return null;
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(uuid)){
+                return storage[i];
             }
-        } catch (NullPointerException ex) {
-            System.out.printf("Item %s not found \n", uuid);
         }
         return null;
     }
 
     void delete(String uuid) {
         int index = 0;
-        for (int i = 0; i < this.size; i++) {
+        for (int i = 0; i < size; i++) {
             if (get(uuid) == storage[i]) {
                 index = i;
             }
         }
-        System.arraycopy(storage, index + 1, storage, index, this.size--);
+        System.arraycopy(storage, index + 1, storage, index, size--);
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] fillArr = new Resume[this.size];
-        System.arraycopy(storage, 0, fillArr, 0, fillArr.length);
-        return fillArr;
+        return Arrays.copyOf(storage,size);
     }
 
     int size() {
-        return this.size;
+        return size;
     }
 }
