@@ -15,30 +15,38 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
+        int index = getIndex(r.toString());
         if (size == STORAGE_LIMIT) {
             System.out.println("ERROR: Storage is full");
+        } else if (index != -1) {
+            System.out.println("Resume already exist");
         } else {
             storage[size++] = r;
         }
     }
 
     public void update(Resume r) {
-        storage[getIndex(r.toString())].setUuid(r.toString());
+        int index = getIndex(r.toString());
+        if (index == -1){
+            System.out.println("ERROR: Resume not exist");
+        } else {
+            storage[index] = r;
+        }
     }
 
     public Resume get(String uuid) {
-        int indexOf = getIndex(uuid);
-        if (indexOf == -1) {
+        int index = getIndex(uuid);
+        if (index == -1) {
             System.out.printf("ERROR: Item %s not found\n", uuid);
             return null;
         }
-        return storage[indexOf];
+        return storage[index];
     }
 
     public void delete(String uuid) {
-        int indexOf = getIndex(uuid);
-        if (indexOf != -1) {
-            System.arraycopy(storage, indexOf + 1, storage, indexOf, size--);
+        int index = getIndex(uuid);
+        if (index != -1) {
+            System.arraycopy(storage, index + 1, storage, index, size--);
         } else {
             System.out.printf("ERROR: Item %s not found", uuid);
         }
