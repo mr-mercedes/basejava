@@ -1,25 +1,21 @@
-package basejava.basejava.src.com.urise.webapp.storage;
+package src.com.urise.webapp.storage;
 
-import basejava.basejava.src.com.urise.webapp.model.Resume;
+import src.com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    protected static final int STORAGE_LIMIT = 10000;
+    protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
-        Arrays.fill(storage, 0 , size, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     public void save(Resume r) {
-        if (storage[size] != null) {
-            System.out.println("ERROR: Can't save resume");
-        } else if (size == storage.length) {
+        if (size == STORAGE_LIMIT) {
             System.out.println("ERROR: Storage is full");
         } else {
             storage[size++] = r;
@@ -27,51 +23,36 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        if (isEmpty()){
-            System.out.println("ERROR: Storage is empty");
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (storage[i].equals(r)) {
-                    storage[i].setUuid(r.toString());
-                }
-            }
-        }
+        storage[getIndex(r.toString())].setUuid(r.toString());
     }
 
     public Resume get(String uuid) {
-        if (isEmpty()) {
-            System.out.println("ERROR: Storage is empty");
+        int indexOf = getIndex(uuid);
+        if (indexOf == -1) {
+            System.out.printf("ERROR: Item %s not found\n", uuid);
             return null;
         }
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                return storage[i];
-            }
-        }
-        System.out.printf("ERROR: %s not found\n", uuid);
-        return null;
+        return storage[indexOf];
     }
 
     public void delete(String uuid) {
-        if (isEmpty()){
-            System.out.println("ERROR: Storage is empty");
-            return;
+        int indexOf = getIndex(uuid);
+        if (indexOf != -1) {
+            System.arraycopy(storage, indexOf + 1, storage, indexOf, size--);
+        } else {
+            System.out.printf("ERROR: Item %s not found", uuid);
         }
+    }
+
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (get(uuid) == storage[i]) {
-                System.arraycopy(storage, i + 1, storage, i, size--);
-                break;
+            if (storage[i].toString().equals(uuid)) {
+                return i;
             }
         }
+        return -1;
     }
 
-    private boolean isEmpty(){
-        return size == 0;
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }

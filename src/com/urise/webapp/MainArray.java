@@ -1,7 +1,7 @@
-package basejava.basejava.src;
+package src;
 
-import basejava.basejava.src.com.urise.webapp.model.Resume;
-import basejava.basejava.src.com.urise.webapp.storage.ArrayStorage;
+import src.com.urise.webapp.model.Resume;
+import src.com.urise.webapp.storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,7 +47,6 @@ public class MainArray {
                     break;
                 case "get":
                     System.out.println(ARRAY_STORAGE.get(uuid));
-                    printAll();
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();

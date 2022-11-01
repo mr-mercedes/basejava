@@ -1,7 +1,7 @@
-package basejava.basejava.src;
+package src;
 
-import basejava.basejava.src.com.urise.webapp.model.Resume;
-import basejava.basejava.src.com.urise.webapp.storage.ArrayStorage;
+import src.com.urise.webapp.model.Resume;
+import src.com.urise.webapp.storage.ArrayStorage;
 
 /**
  * Test for your ArrayStorage implementation
