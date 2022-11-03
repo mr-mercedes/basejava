@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class ArrayStorage {
+public class ArrayStorage extends AbstractArrayStorage{
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
@@ -27,32 +27,25 @@ public class ArrayStorage {
 
     public void update(Resume r) {
         int index = getIndex(r.toString());
-        if (index == -1){
+        if (index == -1) {
             System.out.println("ERROR: Resume not exist");
         } else {
             storage[index] = r;
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.printf("ERROR: Item %s not found\n", uuid);
-            return null;
-        }
-        return storage[index];
-    }
-
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
-            System.arraycopy(storage, index + 1, storage, index, size--);
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         } else {
             System.out.printf("ERROR: Item %s not found", uuid);
         }
     }
 
-    private int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 return i;
