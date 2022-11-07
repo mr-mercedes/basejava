@@ -4,33 +4,27 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class SortedArrayStorage extends AbstractArrayStorage{
-    @Override
-    public void clear() {
+public class SortedArrayStorage extends AbstractArrayStorage {
 
-    }
-
-    @Override
     public void save(Resume r) {
-
+        int index = getIndex(r.toString());
+        if (size == STORAGE_LIMIT) {
+            System.out.println("ERROR: Storage is full");
+        } else if (index >= 0) {
+            System.out.println("Resume already exist");
+        } else {
+            System.arraycopy(storage, -index - 1, storage, -index, size++);
+            storage[-index - 1] = r;
+        }
     }
-
-    @Override
-    public void update(Resume r) {
-
-    }
-
-    @Override
     public void delete(String uuid) {
-
+        int index = getIndex(uuid);
+        if (index != -1) {
+            System.arraycopy(storage, index + 1, storage, index, size--);
+        } else {
+            System.out.printf("ERROR: Item %s not found", uuid);
+        }
     }
-
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
-    }
-
-    @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
