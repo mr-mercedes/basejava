@@ -19,7 +19,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index != -1) {
+        if (index > 0) {
             System.arraycopy(storage, index + 1, storage, index, size--);
         } else {
             System.out.printf("ERROR: Item %s not found", uuid);
