@@ -5,6 +5,7 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+
     @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);

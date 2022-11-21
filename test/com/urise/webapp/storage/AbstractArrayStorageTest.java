@@ -72,7 +72,6 @@ public abstract class AbstractArrayStorageTest {
         Resume[] compareResume = new Resume[expectedSize];
         storage.clear();
         assertSize(expectedSize);
-        Assert.assertEquals(expectedSize, storage.size());
         Assert.assertArrayEquals(storage.getAll(), compareResume);
     }
 

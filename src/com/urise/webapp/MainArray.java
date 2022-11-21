@@ -1,7 +1,7 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
+import com.urise.webapp.storage.ListStorage;
 import com.urise.webapp.storage.Storage;
 
 import java.io.BufferedReader;
@@ -13,13 +13,13 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
-            System.out.print("Введите одну из команд - (list | size | save uuid | delete uuid | get uuid | clear | exit): ");
+            System.out.print("Введите одну из команд - (list | size | save uuid | delete uuid | get uuid | clear | update | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
             if (params.length < 1 || params.length > 2) {
                 System.out.println("Неверная команда.");
@@ -50,6 +50,11 @@ public class MainArray {
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();
+                    printAll();
+                    break;
+                case "update":
+                    r = new Resume(uuid);
+                    ARRAY_STORAGE.update(r);
                     printAll();
                     break;
                 case "exit":
