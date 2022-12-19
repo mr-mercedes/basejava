@@ -2,7 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-public class MapUuidStorage extends MapStorage {
+public class MapUuidStorage extends AbstractMapStorage {
 
     @Override
     protected String getSearchKey(String uuid) {
