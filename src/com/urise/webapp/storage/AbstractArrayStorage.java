@@ -23,7 +23,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     @Override
     protected void doUpdate(Resume r, Integer index) {
-        storage[(Integer) index] = r;
+        storage[index] = r;
     }
 
     @Override
@@ -36,25 +36,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(r, (Integer) index);
+            insertElement(r, index);
             size++;
         }
     }
 
     @Override
     public void doDelete(Integer index) {
-        fillDeletedElement((Integer) index);
+        fillDeletedElement(index);
         storage[size - 1] = null;
         size--;
     }
 
     public Resume doGet(Integer index) {
-        return storage[(Integer) index];
+        return storage[index];
     }
 
     @Override
     protected boolean isExist(Integer index) {
-        return (Integer) index >= 0;
+        return index >= 0;
     }
 
     protected abstract void fillDeletedElement(int index);
