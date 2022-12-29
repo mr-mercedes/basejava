@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class Link {
     private final String name;
-    private final String url;
+    private final String website;
 
-    public Link(String name, String url) {
+    public Link(String name, String website) {
         Objects.requireNonNull(name,"name must not be null");
         this.name = name;
-        this.url = url;
+        this.website = website;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getWebsite() {
+        return website;
     }
 
     @Override
@@ -25,19 +25,19 @@ public class Link {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Link link = (Link) o;
-        return name.equals(link.name) && Objects.equals(url, link.url);
+        return name.equals(link.name) && Objects.equals(website, link.website);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, url);
+        return Objects.hash(name, website);
     }
 
     @Override
     public String toString() {
         return "Link{" +
                 "name='" + name + '\'' +
-                ", url='" + url + '\'' +
+                ", url='" + website + '\'' +
                 '}';
     }
 }
