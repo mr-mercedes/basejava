@@ -1,7 +1,6 @@
 package com.urise.webapp.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Resume implements Comparable<Resume> {
 
@@ -9,6 +8,8 @@ public class Resume implements Comparable<Resume> {
 
     private final String fullName;
 
+    Map<ContactType, String> contacts = new HashMap<>();
+    Map<SectionType, AbstractSection> sections = new HashMap<>();
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -19,10 +20,6 @@ public class Resume implements Comparable<Resume> {
         Objects.requireNonNull(fullName, "fullName must not be null");
         this.uuid = uuid;
         this.fullName = fullName;
-    }
-
-    public String getFullName() {
-        return fullName;
     }
 
     public String getUuid() {
