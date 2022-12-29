@@ -18,10 +18,13 @@ public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_1 = new Resume(UUID_1, "Sergey Borovikov");
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Maria Borovikova");
-    private static final Resume RESUME_3 = new Resume(UUID_3, "Vladimir Ivanov");
-    private static final Resume RESUME_SAVE = new Resume("saveCompleted", "Test Name");
+    private static final String NAME_1 = "Sergey Borovikov";
+    private static final String NAME_2 = "Maria Borovikova";
+    private static final String NAME_3 = "Vladimir Ivanov";
+    private static final Resume RESUME_1 = new ResumeTestData().createResume(UUID_1,NAME_1);
+    private static final Resume RESUME_2 = new ResumeTestData().createResume(UUID_2,NAME_2);
+    private static final Resume RESUME_3 = new ResumeTestData().createResume(UUID_3,NAME_3);
+    private static final Resume RESUME_SAVE = new ResumeTestData().createResume("saveCompleted", "Test Name");
     private static int expectedSize = 0;
 
     public AbstractStorageTest(Storage storage) {
@@ -59,7 +62,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_1, "Update Name");
+        Resume newResume = new ResumeTestData().createResume(UUID_1, "Update Name");
         storage.update(newResume);
         Assert.assertSame(newResume, storage.get(UUID_1));
     }
