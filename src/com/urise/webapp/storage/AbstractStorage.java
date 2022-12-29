@@ -13,58 +13,58 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract SK getSearchKey(String uuid);
 
-    protected abstract void doUpdate(Resume r, SK searchKey);
+    protected abstract void doUpdate(Resume r, SK file);
 
-    protected abstract boolean isExist(SK searchKey);
+    protected abstract boolean isExist(SK file);
 
-    protected abstract void doSave(Resume r, SK searchKey);
+    protected abstract void doSave(Resume r, SK file);
 
-    protected abstract Resume doGet(SK searchKey);
+    protected abstract Resume doGet(SK file);
 
-    protected abstract void doDelete(SK searchKey);
+    protected abstract void doDelete(SK file);
 
     protected abstract List<Resume> doCopyAll();
 
     public void update(Resume r) {
         LOG.info("Update" + r);
-        SK searchKey = getExistedSearchKey(r.getUuid());
-        doUpdate(r, searchKey);
+        SK file = getExistedfile(r.getUuid());
+        doUpdate(r, file);
     }
 
     public void save(Resume r) {
         LOG.info("Save" + r);
-        SK searchKey = getNotExistedSearchKey(r.getUuid());
-        doSave(r, searchKey);
+        SK file = getNotExistedfile(r.getUuid());
+        doSave(r, file);
     }
 
     public void delete(String uuid) {
         LOG.info("Delete" + uuid);
-        SK searchKey = getExistedSearchKey(uuid);
-        doDelete(searchKey);
+        SK file = getExistedfile(uuid);
+        doDelete(file);
     }
 
     public Resume get(String uuid) {
         LOG.info("Get" + uuid);
-        SK searchKey = getExistedSearchKey(uuid);
-        return doGet(searchKey);
+        SK file = getExistedfile(uuid);
+        return doGet(file);
     }
 
-    private SK getExistedSearchKey(String uuid) {
-        SK searchKey = getSearchKey(uuid);
-        if (!isExist(searchKey)) {
+    private SK getExistedfile(String uuid) {
+        SK file = getSearchKey(uuid);
+        if (!isExist(file)) {
             LOG.warning("Resume " + uuid + " not exist");
             throw new NotExistStorageException(uuid);
         }
-        return searchKey;
+        return file;
     }
 
-    private SK getNotExistedSearchKey(String uuid) {
-        SK searchKey = getSearchKey(uuid);
-        if (isExist(searchKey)) {
+    private SK getNotExistedfile(String uuid) {
+        SK file = getSearchKey(uuid);
+        if (isExist(file)) {
             LOG.warning("Resume " + uuid + " already exist");
             throw new ExistStorageException(uuid);
         }
-        return searchKey;
+        return file;
     }
 
     @Override

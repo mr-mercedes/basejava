@@ -1,13 +1,13 @@
 package com.urise.webapp.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Period {
-    private final Date startDate;
-    private final Date endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
 
-    public Period(Date startDate, Date endDate) {
+    public Period(LocalDate startDate, LocalDate endDate) {
         Objects.requireNonNull(startDate, "startDate must not be null");
         Objects.requireNonNull(endDate, "endDate must not be null");
         this.startDate = startDate;

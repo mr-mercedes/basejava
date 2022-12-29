@@ -19,28 +19,28 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isExist(Integer searchKey) {
-        return searchKey != null;
+    protected boolean isExist(Integer file) {
+        return file != null;
     }
 
     @Override
-    protected void doUpdate(Resume r, Integer searchKey) {
-        list.set(searchKey, r);
+    protected void doUpdate(Resume r, Integer file) {
+        list.set(file, r);
     }
 
     @Override
-    protected void doSave(Resume r, Integer searchKey) {
+    protected void doSave(Resume r, Integer file) {
         list.add(r);
     }
 
     @Override
-    protected Resume doGet(Integer searchKey) {
-        return list.get(searchKey);
+    protected Resume doGet(Integer file) {
+        return list.get(file);
     }
 
     @Override
-    protected void doDelete(Integer searchKey) {
-        list.remove(searchKey.intValue());
+    protected void doDelete(Integer file) {
+        list.remove(file.intValue());
     }
 
     @Override
