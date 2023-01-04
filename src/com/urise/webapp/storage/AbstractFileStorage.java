@@ -45,9 +45,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(Resume r, File file) {
         try {
-            if (file.createNewFile()) {
-                doWrite(r, file);
-            } else throw new StorageException("File already exist", file.getName());
+            if (!file.createNewFile()) {
+                throw new StorageException("File already exist", file.getName());
+            }
+            doWrite(r, file);
         } catch (IOException e) {
             throw new StorageException("IO error ", file.getName(), e);
         }
@@ -73,26 +74,26 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> doCopyAll() {
         File[] files = this.directory.listFiles();
         List<Resume> resumes = new ArrayList<>();
-        if (files != null) {
+        if (files == null) {
+            throw new StorageException("directory must not be null", this.directory.getAbsolutePath());
+        } else {
             for (File file : files) {
-                try {
-                    resumes.add(doRead(file));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                doGet(file);
             }
             return resumes;
-        } else throw new StorageException("directory must not be null", this.directory.getAbsolutePath());
+        }
     }
 
     @Override
     public void clear() {
         File[] files = this.directory.listFiles();
-        if (files != null) {
+        if (files == null) {
+            throw new StorageException("directory must not be null", this.directory.getAbsolutePath());
+        } else {
             for (File file : files) {
                 doDelete(file);
             }
-        } else throw new StorageException("directory must not be null", this.directory.getAbsolutePath());
+        }
     }
 
     @Override
