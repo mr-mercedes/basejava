@@ -33,7 +33,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             doWrite(r, file);
         } catch (IOException e) {
-            throw new StorageException("IO error ", file.getName(), e);
+            throw new StorageException("File write error", r.getUuid(), e);
         }
     }
 
@@ -45,13 +45,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(Resume r, File file) {
         try {
-            if (!file.createNewFile()) {
-                throw new StorageException("File already exist", file.getName());
-            }
-            doWrite(r, file);
+            file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("IO error ", file.getName(), e);
+            throw new StorageException("Couldn't create file  " + file.getAbsolutePath(), file.getName(), e);
         }
+        doUpdate(r, file);
     }
 
     @Override
@@ -59,37 +57,35 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             return doRead(file);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new StorageException("File delete error", file.getName());
         }
     }
 
     @Override
     protected void doDelete(File file) {
         if (!file.delete()) {
-            throw new StorageException("File don't delete", file.getName());
+            throw new StorageException("File delete error", file.getName());
         }
     }
 
     @Override
     protected List<Resume> doCopyAll() {
         File[] files = this.directory.listFiles();
-        List<Resume> resumes = new ArrayList<>();
         if (files == null) {
             throw new StorageException("directory must not be null", this.directory.getAbsolutePath());
-        } else {
-            for (File file : files) {
-                doGet(file);
-            }
-            return resumes;
         }
+        List<Resume> resumes = new ArrayList<>(files.length);
+        for (File file : files) {
+            resumes.add(doGet(file));
+        }
+        return resumes;
+
     }
 
     @Override
     public void clear() {
         File[] files = this.directory.listFiles();
-        if (files == null) {
-            throw new StorageException("directory must not be null", this.directory.getAbsolutePath());
-        } else {
+        if (files != null) {
             for (File file : files) {
                 doDelete(file);
             }
