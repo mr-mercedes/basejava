@@ -26,25 +26,25 @@ public abstract class AbstractStorage<SK> implements Storage {
     protected abstract List<Resume> doCopyAll();
 
     public void update(Resume r) {
-        LOG.info("Update" + r);
+        LOG.info("Update " + r);
         SK file = getExistedfile(r.getUuid());
         doUpdate(r, file);
     }
 
     public void save(Resume r) {
-        LOG.info("Save" + r);
+        LOG.info("Save " + r);
         SK file = getNotExistedfile(r.getUuid());
         doSave(r, file);
     }
 
     public void delete(String uuid) {
-        LOG.info("Delete" + uuid);
+        LOG.info("Delete " + uuid);
         SK file = getExistedfile(uuid);
         doDelete(file);
     }
 
     public Resume get(String uuid) {
-        LOG.info("Get" + uuid);
+        LOG.info("Get " + uuid);
         SK file = getExistedfile(uuid);
         return doGet(file);
     }

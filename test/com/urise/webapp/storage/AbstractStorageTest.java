@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public abstract class AbstractStorageTest {
     protected final Storage storage;
+    protected static final File STORAGE_DIR = new File("D:\\JavaDev\\TopJava\\storage");
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -36,7 +38,7 @@ public abstract class AbstractStorageTest {
         R1.addContact(ContactType.PHONE, "11111");
         R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
         R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
-        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
+        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement11", "Achievement12", "Achievement13"));
         R1.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
         R1.addSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
@@ -56,7 +58,6 @@ public abstract class AbstractStorageTest {
                         new Organization("Organization2", "http://Organization2.ru",
                                 new Organization.Position(2015, Month.JANUARY, "position1", "content1"))));
     }
-    private static final Resume RESUME_SAVE = new ResumeTestData().createResume("saveCompleted", "Test Name");
     private static int expectedSize = 0;
 
     public AbstractStorageTest(Storage storage) {
@@ -96,7 +97,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume newResume = new ResumeTestData().createResume(UUID_1, "Update Name");
         storage.update(newResume);
-        Assert.assertSame(newResume, storage.get(UUID_1));
+        Assert.assertEquals(newResume, storage.get(UUID_1));
     }
 
     @Test
@@ -140,12 +141,12 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.update(RESUME_SAVE);
+        storage.update(R4);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() {
-        storage.delete(RESUME_SAVE.getUuid());
+        storage.delete(R4.getUuid());
     }
 
     private void assertGet(Resume r) {
