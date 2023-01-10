@@ -12,7 +12,7 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException("Error", e);
         }
-        File dir = new File("D:\\JavaDev\\TopJava\\basejava\\src\\com\\urise\\webapp");
+        File dir = new File("D:\\JavaDev\\TopJava\\basejava");
         System.out.println(dir.isDirectory());
         String[] list = dir.list();
         if (list != null) {
@@ -25,19 +25,20 @@ public class MainFile {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-        printDirectoryDeeply(dir);
+        String tab = "";
+        printDirectoryDeeply(dir, tab);
     }
 
-    public static void printDirectoryDeeply(File dir) {
+    public static void printDirectoryDeeply(File dir, String tab) {
         File[] files = dir.listFiles();
 
         if (files != null)
             for (File file : files) {
                 if (file.isFile()) {
-                    System.out.println("File: " + file.getName());
-                } else if (file.isDirectory()) {
-                    System.out.println("Directory: " + file.getName());
-                    printDirectoryDeeply(file);
+                    System.out.println(tab + "File: " + file.getName());
+                } else if (file.isDirectory() && !file.getName().equalsIgnoreCase(".git")) {
+                    System.out.println(tab + "Directory: " + file.getName());
+                    printDirectoryDeeply(file, tab + "\t");
                 }
             }
     }
