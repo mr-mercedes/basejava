@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.stategy.Strategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
     private final File directory;
-    private Strategy strategy;
+    private final Strategy strategy;
 
     protected FileStorage(File directory, Strategy strategy) {
         Objects.requireNonNull(directory, "directory must not be null");

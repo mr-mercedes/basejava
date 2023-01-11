@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.stategy.Strategy;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -10,10 +11,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
-    private Strategy strategy;
+    private final Strategy strategy;
 
     protected PathStorage(String dir, Strategy strategy) {
         directory = Paths.get(dir);
@@ -23,6 +25,7 @@ public class PathStorage extends AbstractStorage<Path> {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
     }
+
     @Override
     protected Path getSearchKey(String dir) {
         return directory.resolve(dir);
@@ -73,7 +76,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> doCopyAll() {
         try {
-            return Files.list(directory).map(this::doGet).collect(Collectors.toList());
+            return getPathList().map(this::doGet).collect(Collectors.toList());
         } catch (IOException e) {
             throw new StorageException("Directory read error", null, e);
         }
@@ -82,7 +85,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     public void clear() {
         try {
-            Files.list(directory).forEach(this::doDelete);
+            getPathList().forEach(this::doDelete);
         } catch (IOException e) {
             throw new StorageException("Path delete error", null, e);
         }
@@ -91,9 +94,13 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     public int size() {
         try {
-            return (int) Files.list(directory).count();
+            return (int) getPathList().count();
         } catch (IOException e) {
-            throw new StorageException("Directory read error", null, e);
+            throw new RuntimeException(e);
         }
+    }
+
+    private Stream<Path> getPathList() throws IOException {
+        return Files.list(directory);
     }
 }
