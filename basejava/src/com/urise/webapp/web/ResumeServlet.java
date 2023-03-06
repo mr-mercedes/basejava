@@ -31,6 +31,7 @@ public class ResumeServlet extends HttpServlet {
         storage = Config.get().getStorage();
         for (THEME t : THEME.values()) {
             themes.add(t.name());
+
         }
     }
 
